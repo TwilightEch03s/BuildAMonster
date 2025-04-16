@@ -7,6 +7,35 @@ class Monster extends Phaser.Scene {
         this.bodyX = 300;
         this.bodyY = 350;
         
+        this.eyeX = 300;
+        this.eyeY = 330;
+
+        this.rightHornX = 360;
+        this.rightHornY = 280;
+
+        this.leftHornX = 240;
+        this.leftHornY = 280;
+
+        this.mouthX = 300;
+        this.mouthY = 400;
+
+        this.fangsX = 300;
+        this.fangsY = 400;
+
+        this.smileX = 300;
+        this.smileY = 400;
+
+        this.rightLegX = 350;
+        this.rightLegY = 460;
+
+        this.leftLegX = 255;
+        this.leftLegY = 460;
+
+        this.rightArmX = 395;
+        this.rightArmY = 400;
+
+        this.leftArmX = 209;
+        this.leftArmY = 400;
     }
 
     // Use preload to load art and sound assets before the scene starts running.
@@ -24,6 +53,7 @@ class Monster extends Phaser.Scene {
 
     create() {
         let my = this.my;   // create an alias to this.my for readability
+        this.keys = this.input.keyboard.addKeys("S, F, A, D");
 
         // Create the main body sprite
         //
@@ -31,15 +61,66 @@ class Monster extends Phaser.Scene {
         //
         // look in spritesheet_default.xml for the individual sprite names
         // You can also download the asset pack and look in the PNG/default folder.
+
+        my.sprite.rightLeg = this.add.sprite(this.rightLegX, this.rightLegY, "monsterParts", "leg_greenA.png");
+
+        my.sprite.leftLeg = this.add.sprite(this.leftLegX, this.leftLegY, "monsterParts", "leg_greenA.png");
+        my.sprite.leftLeg.flipX = true;   
+
+        my.sprite.rightArm = this.add.sprite(this.rightArmX, this.rightArmY, "monsterParts", "arm_greenB.png");
+        
+        my.sprite.leftArm = this.add.sprite(this.leftArmX, this.leftArmY, "monsterParts", "arm_greenB.png");
+        my.sprite.leftArm.flipX = true;
+
+        my.sprite.rightHorn = this.add.sprite(this.rightHornX, this.rightHornY, "monsterParts", "detail_white_horn_small.png");
+
+        my.sprite.leftHorn = this.add.sprite(this.leftHornX, this.leftHornY, "monsterParts", "detail_white_horn_small.png");
+        my.sprite.leftHorn.flipX = true;
+
         my.sprite.body = this.add.sprite(this.bodyX, this.bodyY, "monsterParts", "body_greenD.png");
+
+        my.sprite.eye = this.add.sprite(this.eyeX, this.eyeY, "monsterParts", "eye_human_green.png");
+        my.sprite.eye.setScale(1.2); 
+
+        my.sprite.mouth = this.add.sprite(this.mouthX, this.mouthY, "monsterParts", "mouth_closed_happy.png");
+        
+        my.sprite.smile = this.add.sprite(this.smileX, this.smileY, "monsterParts", "mouthA.png");
+        my.sprite.smile.visible = false;
+
+        my.sprite.fangs = this.add.sprite(this.fangsX, this.fangsY, "monsterParts", "mouthB.png");
+        my.sprite.fangs.visible = false;
+
 
         
     }
 
     update() {
         let my = this.my;    // create an alias to this.my for readability
+        let moveSpeed = 5;
 
-       
+        if (this.keys.S.isDown) {
+            my.sprite.mouth.visible = false;
+            my.sprite.smile.visible = true;
+            my.sprite.fangs.visible = false;
+        }
+    
+        if (this.keys.F.isDown) {
+            my.sprite.mouth.visible = false;
+            my.sprite.smile.visible = false;
+            my.sprite.fangs.visible = true;
+        }
+
+        if (this.keys.A.isDown) {
+            for (let i in my.sprite) {
+                my.sprite[i].x -= moveSpeed;
+            }
+        }
+        
+        if (this.keys.D.isDown) {
+            for (let i in my.sprite) {
+                my.sprite[i].x += moveSpeed;
+            }
+        }
     }
 
 }

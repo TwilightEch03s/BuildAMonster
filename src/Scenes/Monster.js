@@ -2,6 +2,11 @@ class Monster extends Phaser.Scene {
     constructor() {
         super("monsterScene");
         this.my = {sprite: {}};  // Create an object to hold sprite bindings
+        this.sKey = null;
+        this.fKey = null;
+        this.aKey = null;
+        this.dKey = null;
+
 
         //Create constants for the monster location
         this.bodyX = 300;
@@ -53,8 +58,11 @@ class Monster extends Phaser.Scene {
 
     create() {
         let my = this.my;   // create an alias to this.my for readability
-        this.keys = this.input.keyboard.addKeys("S, F, A, D");
-
+        this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.fKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        
         // Create the main body sprite
         //
         // this.add.sprite(x,y, "{atlas key name}", "{name of sprite within atlas}")
@@ -96,29 +104,28 @@ class Monster extends Phaser.Scene {
 
     update() {
         let my = this.my;    // create an alias to this.my for readability
-        let moveSpeed = 5;
 
-        if (this.keys.S.isDown) {
+        if (Phaser.Input.Keyboard.JustDown(this.sKey)) {
             my.sprite.mouth.visible = false;
             my.sprite.smile.visible = true;
             my.sprite.fangs.visible = false;
         }
     
-        if (this.keys.F.isDown) {
+        if (Phaser.Input.Keyboard.JustDown(this.fKey)) {
             my.sprite.mouth.visible = false;
             my.sprite.smile.visible = false;
             my.sprite.fangs.visible = true;
         }
 
-        if (this.keys.A.isDown) {
-            for (let i in my.sprite) {
-                my.sprite[i].x -= moveSpeed;
+        if (this.aKey.isDown) {
+            for (let key in my.sprite) {
+                my.sprite[key].x -= 5;
             }
         }
         
-        if (this.keys.D.isDown) {
-            for (let i in my.sprite) {
-                my.sprite[i].x += moveSpeed;
+        if (this.dKey.isDown) {
+            for (let key in my.sprite) {
+                my.sprite[key].x += 5;
             }
         }
     }
